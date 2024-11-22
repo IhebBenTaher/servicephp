@@ -10,26 +10,23 @@ if (!$con) {
 // Check if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve data from POST request
-    $longitude = $_POST['longitude'];
-    $latitude = $_POST['latitude'];
-    $numero = $_POST['numero'];
-    $pseudo = $_POST['pseudo'];
+    $id = $_POST['idPosition'];
 
     // Validate that required fields are not empty
-    if (!empty($longitude) && !empty($latitude) && !empty($numero) && !empty($pseudo)) {
+    if (!empty($id)) {
         // Prepare the SQL insert query
-        $sql = "INSERT INTO position (longitude, latitude, numero, pseudo) VALUES (?, ?, ?, ?)";
+        $sql = "DELETE from position where idPosition=?";
 
         // Initialize the prepared statement
         $stmt = mysqli_prepare($con, $sql);
 
         if ($stmt) {
             // Bind parameters to the SQL query
-            mysqli_stmt_bind_param($stmt, "ssss", $longitude, $latitude, $numero, $pseudo);
+            mysqli_stmt_bind_param($stmt, "s", $id);
 
             // Execute the statement
             if (mysqli_stmt_execute($stmt)) {
-                echo "Position saved successfully.";
+                echo "Position deleted successfully.";
             } else {
                 echo "Error: " . mysqli_stmt_error($stmt);
             }
